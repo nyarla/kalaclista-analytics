@@ -1,12 +1,12 @@
 # goatcounter
-FROM golang:alpine3.18 as goatcounter
+FROM golang:1.22.5-alpine as goatcounter
 
 RUN mkdir -p /app/bin
 WORKDIR /
 
 ARG GITHUB_GOATCOUNTER_OWNER=arp242
 ARG GITHUB_GOATCOUNTER_REPOSITORY=goatcounter
-ARG GITHUB_GOATCOUNTER_REVISION=b4126b7165aa65a17353e06ef0b7bf7127d76004
+ARG GITHUB_GOATCOUNTER_REVISION=57c95db06282b80d6fa7e486faa8ce12fd6dd0c6
 
 RUN apk add --update --no-cache --virtual goatcounter-build \
     build-base \
@@ -30,7 +30,7 @@ RUN apk add --update --no-cache --virtual goatcounter-build \
   && cd / && rm -rf /src /root
 
 # runtime
-FROM alpine as runtime
+FROM alpine:3.20 as runtime
 
 COPY --from=goatcounter --chmod=0500 /app/bin/goatcounter /app/bin/goatcounter
 COPY --chmod=0500 entrypoint.sh /app/bin/entrypoint.sh
