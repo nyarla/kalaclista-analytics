@@ -1,5 +1,3 @@
 *
-!Dockerfile
 !Makefile
-!entrypoint.sh
 !fly.toml
