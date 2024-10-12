@@ -15,3 +15,6 @@ build:
 
 rebuild:
 	@$(MAKE) EXTRA_FLAGS="--no-cache" build
+
+test:
+	docker run -it -p 8080:9080 --rm --env-file .env --entrypoint /bin/sh kalaclista-analytics-v1:latest
