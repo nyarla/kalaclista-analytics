@@ -1,5 +1,19 @@
 #!/bin/sh
 
+set -x
+
+if test "$(id -u)" -eq 0; then
+  test -d /data || mkdir -p /data
+  chown -R nonroot:nonroot /data
+
+  env | grep 'GOAT_' | sort >/var/run/kalaclista/env
+  chown nonroot:nonroot /var/run/kalaclista/env
+
+  (su - nonroot -c /usr/bin/entrypoint.sh && exit 0) || exit 1
+fi
+
+. /var/run/kalaclista/env
+
 if test ! -e /data/sqlite3.db ; then
   goatcounter db create site \
     -db sqlite3+/data/sqlite3.db -createdb \
